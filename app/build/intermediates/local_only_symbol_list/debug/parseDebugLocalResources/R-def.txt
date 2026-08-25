@@ -1,0 +1,13 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_launcher_foreground
+mipmap ic_launcher
+string app_name
+string empty_library
+string library_title
+string loading
+string now_playing
+string sign_in_with_google
+string sign_out
+string unknown_artist
+style Theme.CloudMusicPlayer
