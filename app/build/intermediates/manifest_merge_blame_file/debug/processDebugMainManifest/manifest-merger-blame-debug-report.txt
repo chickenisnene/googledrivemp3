@@ -34,15 +34,15 @@
 20-->C:\Users\yul\OneDrive\Desktop\CloudMusicPlayer\app\src\main\AndroidManifest.xml:13:22-65
 21
 22    <permission
-22-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\transforms-4\2afe054eb450f3c2e302f9ddf11bee9d\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+22-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\3c1bdc1f13b676167f2f17e0df1ccf51\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
 23        android:name="com.example.cloudmusic.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-23-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\transforms-4\2afe054eb450f3c2e302f9ddf11bee9d\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+23-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\3c1bdc1f13b676167f2f17e0df1ccf51\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
 24        android:protectionLevel="signature" />
-24-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\transforms-4\2afe054eb450f3c2e302f9ddf11bee9d\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+24-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\3c1bdc1f13b676167f2f17e0df1ccf51\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
 25
 26    <uses-permission android:name="com.example.cloudmusic.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-26-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\transforms-4\2afe054eb450f3c2e302f9ddf11bee9d\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
-26-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\transforms-4\2afe054eb450f3c2e302f9ddf11bee9d\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+26-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\3c1bdc1f13b676167f2f17e0df1ccf51\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+26-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\3c1bdc1f13b676167f2f17e0df1ccf51\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
 27
 28    <application
 28-->C:\Users\yul\OneDrive\Desktop\CloudMusicPlayer\app\src\main\AndroidManifest.xml:15:5-45:19
@@ -51,7 +51,7 @@
 30        android:allowBackup="true"
 30-->C:\Users\yul\OneDrive\Desktop\CloudMusicPlayer\app\src\main\AndroidManifest.xml:17:9-35
 31        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-31-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\transforms-4\2afe054eb450f3c2e302f9ddf11bee9d\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+31-->[androidx.core:core:1.13.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\3c1bdc1f13b676167f2f17e0df1ccf51\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 32        android:debuggable="true"
 33        android:extractNativeLibs="false"
 34        android:icon="@mipmap/ic_launcher"
@@ -106,109 +106,109 @@
 62        </service>
 63
 64        <activity
-64-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:23:9-27:75
+64-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:23:9-27:75
 65            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-65-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:24:13-93
+65-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:24:13-93
 66            android:excludeFromRecents="true"
-66-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:25:13-46
+66-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:25:13-46
 67            android:exported="false"
-67-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:26:13-37
+67-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:26:13-37
 68            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-68-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:27:13-72
+68-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:27:13-72
 69        <!--
 70            Service handling Google Sign-In user revocation. For apps that do not integrate with
 71            Google Sign-In, this service will never be started.
 72        -->
 73        <service
-73-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:33:9-37:51
+73-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:33:9-37:51
 74            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
-74-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:34:13-89
+74-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:34:13-89
 75            android:exported="true"
-75-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:35:13-36
+75-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:35:13-36
 76            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
-76-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:36:13-107
+76-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:36:13-107
 77            android:visibleToInstantApps="true" />
-77-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\transforms-4\670e592d33d741a7bd4bd0118304a6cc\transformed\play-services-auth-21.2.0\AndroidManifest.xml:37:13-48
+77-->[com.google.android.gms:play-services-auth:21.2.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\cfeeb93f97892e6c03b89de118dbbefd\transformed\play-services-auth-21.2.0\AndroidManifest.xml:37:13-48
 78
 79        <activity
-79-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\transforms-4\330ef93301eb4196c2e49ea48ea539f6\transformed\play-services-base-18.3.0\AndroidManifest.xml:20:9-22:45
+79-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\0ec18b0b83cb9f4ed8099e718deaf22b\transformed\play-services-base-18.3.0\AndroidManifest.xml:20:9-22:45
 80            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-80-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\transforms-4\330ef93301eb4196c2e49ea48ea539f6\transformed\play-services-base-18.3.0\AndroidManifest.xml:20:19-85
+80-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\0ec18b0b83cb9f4ed8099e718deaf22b\transformed\play-services-base-18.3.0\AndroidManifest.xml:20:19-85
 81            android:exported="false"
-81-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\transforms-4\330ef93301eb4196c2e49ea48ea539f6\transformed\play-services-base-18.3.0\AndroidManifest.xml:22:19-43
+81-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\0ec18b0b83cb9f4ed8099e718deaf22b\transformed\play-services-base-18.3.0\AndroidManifest.xml:22:19-43
 82            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-82-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\transforms-4\330ef93301eb4196c2e49ea48ea539f6\transformed\play-services-base-18.3.0\AndroidManifest.xml:21:19-78
+82-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\0ec18b0b83cb9f4ed8099e718deaf22b\transformed\play-services-base-18.3.0\AndroidManifest.xml:21:19-78
 83
 84        <meta-data
-84-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\yul\.gradle\caches\transforms-4\6f9694eb7f178ac3b150a6a0600e2156\transformed\play-services-basement-18.3.0\AndroidManifest.xml:21:9-23:69
+84-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\988da5328374c2104310c5421297b5a6\transformed\play-services-basement-18.3.0\AndroidManifest.xml:21:9-23:69
 85            android:name="com.google.android.gms.version"
-85-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\yul\.gradle\caches\transforms-4\6f9694eb7f178ac3b150a6a0600e2156\transformed\play-services-basement-18.3.0\AndroidManifest.xml:22:13-58
+85-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\988da5328374c2104310c5421297b5a6\transformed\play-services-basement-18.3.0\AndroidManifest.xml:22:13-58
 86            android:value="@integer/google_play_services_version" />
-86-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\yul\.gradle\caches\transforms-4\6f9694eb7f178ac3b150a6a0600e2156\transformed\play-services-basement-18.3.0\AndroidManifest.xml:23:13-66
+86-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\988da5328374c2104310c5421297b5a6\transformed\play-services-basement-18.3.0\AndroidManifest.xml:23:13-66
 87
 88        <provider
-88-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\transforms-4\8a58b36eb86ef235c4a48effe4d83bef\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+88-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\4d175c546729f05669d3d666c5180881\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
 89            android:name="androidx.startup.InitializationProvider"
-89-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\transforms-4\8a58b36eb86ef235c4a48effe4d83bef\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+89-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\4d175c546729f05669d3d666c5180881\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
 90            android:authorities="com.example.cloudmusic.androidx-startup"
-90-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\transforms-4\8a58b36eb86ef235c4a48effe4d83bef\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+90-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\4d175c546729f05669d3d666c5180881\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
 91            android:exported="false" >
-91-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\transforms-4\8a58b36eb86ef235c4a48effe4d83bef\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+91-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\4d175c546729f05669d3d666c5180881\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
 92            <meta-data
-92-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\transforms-4\8a58b36eb86ef235c4a48effe4d83bef\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+92-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\4d175c546729f05669d3d666c5180881\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
 93                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-93-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\transforms-4\8a58b36eb86ef235c4a48effe4d83bef\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+93-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\4d175c546729f05669d3d666c5180881\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
 94                android:value="androidx.startup" />
-94-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\transforms-4\8a58b36eb86ef235c4a48effe4d83bef\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+94-->[androidx.emoji2:emoji2:1.3.0] C:\Users\yul\.gradle\caches\8.14.5\transforms\4d175c546729f05669d3d666c5180881\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
 95            <meta-data
-95-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\yul\.gradle\caches\transforms-4\a6fc2958f3c0e21516d92e7e77aa172f\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:29:13-31:52
+95-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\yul\.gradle\caches\8.14.5\transforms\d9b5e6335738380cbc67d285fdb55778\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:29:13-31:52
 96                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-96-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\yul\.gradle\caches\transforms-4\a6fc2958f3c0e21516d92e7e77aa172f\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:30:17-78
+96-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\yul\.gradle\caches\8.14.5\transforms\d9b5e6335738380cbc67d285fdb55778\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:30:17-78
 97                android:value="androidx.startup" />
-97-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\yul\.gradle\caches\transforms-4\a6fc2958f3c0e21516d92e7e77aa172f\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:31:17-49
+97-->[androidx.lifecycle:lifecycle-process:2.8.4] C:\Users\yul\.gradle\caches\8.14.5\transforms\d9b5e6335738380cbc67d285fdb55778\transformed\lifecycle-process-2.8.4\AndroidManifest.xml:31:17-49
 98            <meta-data
-98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
 99                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-99-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+99-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
 100                android:value="androidx.startup" />
-100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
 101        </provider>
 102
 103        <receiver
-103-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+103-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
 104            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
 105            android:directBootAware="false"
-105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
 106            android:enabled="true"
-106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
 107            android:exported="true"
-107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
 108            android:permission="android.permission.DUMP" >
-108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
 109            <intent-filter>
-109-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
 110                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
 111            </intent-filter>
 112            <intent-filter>
-112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
 113                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
 114            </intent-filter>
 115            <intent-filter>
-115-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
 116                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
 117            </intent-filter>
 118            <intent-filter>
-118-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+118-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
 119                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\transforms-4\a8ceb7db9e542884b66bfcc33ba1e862\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\yul\.gradle\caches\8.14.5\transforms\37ffb2bb005f8886b96cd75bc31c28f9\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
 120            </intent-filter>
 121        </receiver>
 122    </application>
