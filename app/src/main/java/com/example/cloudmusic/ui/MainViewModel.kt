@@ -56,20 +56,20 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _uiState = MutableStateFlow(LibraryUiState())
     val uiState: StateFlow<LibraryUiState> = _uiState.asStateFlow()
 
-    private val _shuffleEnabled = MutableStateFlow(false)
+    private val _shuffleEnabled = MutableStateFlow(value = false)
     val shuffleEnabled: StateFlow<Boolean> = _shuffleEnabled.asStateFlow()
 
-    private val _repeatMode = MutableStateFlow(RepeatMode.OFF)
+    private val _repeatMode = MutableStateFlow(value = RepeatMode.OFF)
     val repeatMode: StateFlow<RepeatMode> = _repeatMode.asStateFlow()
 
-    private val _favoriteTrackIds = MutableStateFlow<Set<String>>(emptySet())
+    private val _favoriteTrackIds = MutableStateFlow<Set<String>>(value = emptySet())
     val favoriteTrackIds: StateFlow<Set<String>> = _favoriteTrackIds.asStateFlow()
 
-    private val _playlists = MutableStateFlow<List<Playlist>>(emptyList())
+    private val _playlists = MutableStateFlow<List<Playlist>>(value = emptyList())
     val playlists: StateFlow<List<Playlist>> = _playlists.asStateFlow()
 
     // 최근 재생: 앱 재시작 후에도 유지 (영속)
-    private val _recentlyPlayedIds = MutableStateFlow<List<String>>(emptyList())
+    private val _recentlyPlayedIds = MutableStateFlow<List<String>>(value = emptyList())
     val recentlyPlayedIds: StateFlow<List<String>> = _recentlyPlayedIds.asStateFlow()
 
     // 아티스트 화면용: artist → tracks 맵. _uiState.tracks가 바뀌면 자동으로 재계산됨.
@@ -89,17 +89,20 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val networkMonitor = NetworkMonitor(app)
 
     // 수동 데이터 절약 토글
-    private val _manualDataSaver = MutableStateFlow(false)
-    val manualDataSaverEnabled: StateFlow<Boolean> = _manualDataSaver.asStateFlow()
+    private val _manualDataSaver = MutableStateFlow(value = false)
 
     /** 실제 적용 여부: 수동으로 켰거나 모바일 데이터 환경이면 true */
     val isDataSaverActive: StateFlow<Boolean> = combine(
         _manualDataSaver,
         networkMonitor.networkType,
     ) { manual, networkType ->
-        (manual || networkType == NetworkType.CELLULAR)
+        (manual || (networkType == NetworkType.CELLULAR))
             .also { DataSaverProvider.isDataSaverMode = it }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false,
+    )
 
     /** 현재 네트워크 타입 (UI에 Wi-Fi/데이터 뱃지 표시용) */
     val networkType: StateFlow<NetworkType> =
@@ -134,8 +137,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     // ── 로그인 ───────────────────────────────────────────────────────────────
     private fun checkExistingSignIn() {
-        val account = authManager.getLastSignedInAccount()
-        if (account != null) onSignedIn(account)
+        authManager.getLastSignedInAccount()?.let { onSignedIn(it) }
     }
 
     fun getSignInIntent() = authManager.getSignInIntent()
@@ -185,22 +187,26 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                         // 사용자가 권한을 다시 동의해야 함 → Activity가 인텐트를 띄우도록 전달
                         _reAuthIntent.value = tokenResult.recoveryIntent
                         _uiState.value = _uiState.value.copy(
-                            isLoading = false, isRefreshing = false,
-                            errorMessage = "Drive 접근 권한 재동의가 필요해요."
+                            isLoading = false,
+                            isRefreshing = false,
+                            errorMessage = "Drive 접근 권한 재동의가 필요해요.",
                         )
                         return@launch
                     }
                     is DriveAuthManager.TokenResult.Error -> {
                         _uiState.value = _uiState.value.copy(
-                            isLoading = false, isRefreshing = false,
-                            errorMessage = "인증에 실패했어요: ${tokenResult.message}"
+                            isLoading = false,
+                            isRefreshing = false,
+                            errorMessage = "인증에 실패했어요: ${tokenResult.message}",
                         )
                         return@launch
                     }
                 }
                 val tracks = driveRepo.listAudioTracks(account)
                 _uiState.value = _uiState.value.copy(
-                    isLoading = false, isRefreshing = false, tracks = tracks
+                    isLoading = false,
+                    isRefreshing = false,
+                    tracks = tracks,
                 )
                 restoreLastPositionIfNeeded(tracks)
             } catch (e: Exception) {
@@ -252,7 +258,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _uiState.value = _uiState.value.copy(rawQuery = query)
         searchDebounceJob?.cancel()
         searchDebounceJob = viewModelScope.launch {
-            delay(300)
+            delay(timeMillis = 300)
             _uiState.value = _uiState.value.copy(query = query)
         }
     }
@@ -304,7 +310,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
      */
     fun startSleepTimer(minutes: Int) {
         sleepTimerJob?.cancel()
-        val endMs = System.currentTimeMillis() + minutes * 60_000L
+        val endMs = System.currentTimeMillis() + (minutes * 60_000L)
         sleepTimerJob = viewModelScope.launch {
             while (true) {
                 val remaining = endMs - System.currentTimeMillis()
@@ -315,7 +321,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                     break
                 }
                 _sleepTimerRemainingMs.value = remaining
-                delay(1_000)
+                delay(timeMillis = 1_000)
             }
         }
     }
@@ -365,8 +371,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun addTrackToPlaylist(playlistId: String, track: Track) {
         updatePlaylists(_playlists.value.map { pl ->
-            if (pl.id == playlistId && track.id !in pl.trackIds)
-                pl.copy(trackIds = pl.trackIds + track.id) else pl
+            val shouldUpdate = (pl.id == playlistId) && (track.id !in pl.trackIds)
+            if (shouldUpdate) {
+                pl.copy(trackIds = pl.trackIds + track.id)
+            } else {
+                pl
+            }
         })
     }
 
@@ -376,14 +386,19 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             if (pl.id == playlistId) {
                 val newIds = pl.trackIds + trackIds.filterNot { it in pl.trackIds }
                 pl.copy(trackIds = newIds)
-            } else pl
+            } else {
+                pl
+            }
         })
     }
 
     fun removeTrackFromPlaylist(playlistId: String, track: Track) {
         updatePlaylists(_playlists.value.map { pl ->
-            if (pl.id == playlistId) pl.copy(trackIds = pl.trackIds.filterNot { it == track.id })
-            else pl
+            if (pl.id == playlistId) {
+                pl.copy(trackIds = pl.trackIds.filterNot { it == track.id })
+            } else {
+                pl
+            }
         })
     }
 
@@ -402,8 +417,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun selectAllArtistTracks(artist: String) {
-        val ids = _uiState.value.tracks.filter { it.artist == artist }.map { it.id }.toSet()
-        _selectedTrackIds.value = _selectedTrackIds.value + ids
+        val ids = _uiState.value.tracks
+            .asSequence()
+            .filter { it.artist == artist }
+            .map { it.id }
+            .toSet()
+        _selectedTrackIds.value += ids
     }
 
     fun clearSelection() {
@@ -438,7 +457,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun startTokenRefreshLoop() {
         viewModelScope.launch {
             while (true) {
-                delay(50 * 60 * 1000L)
+                delay(timeMillis = 50 * 60 * 1000L)
                 val account = authManager.getLastSignedInAccount() ?: continue
                 when (val result = authManager.fetchAccessToken(account)) {
                     is DriveAuthManager.TokenResult.Success ->
