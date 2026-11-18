@@ -1,5 +1,6 @@
 package com.example.cloudmusic.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -39,6 +40,11 @@ fun ArtistsScreen(
     var showBulkPlaylistDialog by remember { mutableStateOf(false) }
 
     val isSelectionMode = selectedTrackIds.isNotEmpty()
+
+    // 뒤로가기: 선택 모드 해제 → 아티스트 상세에서 목록으로
+    BackHandler(enabled = isSelectionMode || selectedArtist != null) {
+        if (isSelectionMode) onClearSelection() else selectedArtist = null
+    }
 
     Box(modifier = modifier.fillMaxSize()) {
         if (selectedArtist == null) {

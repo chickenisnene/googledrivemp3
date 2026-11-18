@@ -1,5 +1,6 @@
 package com.example.cloudmusic.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -41,6 +42,8 @@ fun PlaylistsScreen(
     var showCreateDialog by remember { mutableStateOf(false) }
 
     val selectedPlaylist = playlists.find { it.id == selectedPlaylistId }
+
+    BackHandler(enabled = selectedPlaylist != null) { selectedPlaylistId = null }
 
     Box(modifier = modifier.fillMaxSize()) {
         if (selectedPlaylist == null) {
@@ -103,7 +106,10 @@ fun PlaylistsScreen(
         } else {
             PlaylistDetail(
                 playlist = selectedPlaylist,
-                tracks = selectedPlaylist.trackIds.mapNotNull { id -> allTracks.find { it.id == id } },
+                tracks = remember(selectedPlaylist, allTracks) {
+                    val byId = allTracks.associateBy { it.id }  // 곡마다 전체 목록을 훑지 않도록
+                    selectedPlaylist.trackIds.mapNotNull { byId[it] }
+                },
                 onBack = { selectedPlaylistId = null },
                 onPlayAll = { onPlayPlaylist(selectedPlaylist, null) },
                 onPlayTrack = { onPlayPlaylist(selectedPlaylist, it) },

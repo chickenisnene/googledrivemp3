@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -124,6 +125,28 @@ class MainActivity : ComponentActivity() {
                     recentlyIds.mapNotNull { id -> libraryState.tracks.find { it.id == id } }
                 }
                 val artistMap      by viewModel.artistMap.collectAsState()
+                val storageInfo    by viewModel.storageInfo.collectAsState()
+                var showStorage by remember { mutableStateOf(false) }
+
+                // 모바일 데이터 재생 안내, 다음에 재생 등 일회성 메시지
+                LaunchedEffect(Unit) {
+                    viewModel.notices.collect { msg ->
+                        snackbarHostState.currentSnackbarData?.dismiss()
+                        snackbarHostState.showSnackbar(msg)
+                    }
+                }
+                if (showStorage) {
+                    LaunchedEffect(Unit) { viewModel.refreshStorageInfo() }
+                    com.example.cloudmusic.ui.components.StorageDialog(
+                        info = storageInfo,
+                        onSetCacheMaxMb = viewModel::setCacheMaxMb,
+                        onClearCache = viewModel::clearAudioCache,
+                        onDismiss = { showStorage = false },
+                    )
+                }
+
+                // 가장 안쪽(나중에 등록된) 핸들러가 먼저 처리한다: 플레이어 > 화면별(선택/상세/검색) > 여기.
+                BackHandler(enabled = currentTab != MainTab.LIBRARY) { currentTab = MainTab.LIBRARY }
 
                 Scaffold(
                     snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -163,6 +186,8 @@ class MainActivity : ComponentActivity() {
                                         },
                                         onCreatePlaylist = viewModel::createPlaylist,
                                         onRefresh = viewModel::refreshLibrary,
+                                        onOpenSettings = { showStorage = true },
+                                        onPlayNext = viewModel::playNext,
                                         selectedTrackIds = selectedIds,
                                         onToggleSelect = viewModel::toggleTrackSelection,
                                         onClearSelection = viewModel::clearSelection,
@@ -210,7 +235,7 @@ class MainActivity : ComponentActivity() {
                                     )
 
                                     MainTab.FAVORITES -> FavoritesScreen(
-                                        favoriteTracks = libraryState.tracks.filter { it.id in favoriteIds },
+                                        favoriteTracks = remember(libraryState.tracks, favoriteIds) { libraryState.tracks.filter { it.id in favoriteIds } },
                                         nowPlayingTrackId = playbackState.currentTrackId,
                                         isPlaying = playbackState.isPlaying,
                                         onTrackClick = {
@@ -309,6 +334,8 @@ class MainActivity : ComponentActivity() {
                             onStartSleepTimer  = viewModel::startSleepTimer,
                             onCancelSleepTimer = viewModel::cancelSleepTimer,
                             onJumpToQueueItem  = { viewModel.playbackController.seekToQueueItem(it) },
+                            onMoveQueueItem    = viewModel::moveQueueItem,
+                            onRemoveQueueItem  = viewModel::removeQueueItem,
                             currentPositionProvider = { viewModel.playbackController.currentPosition() },
                             durationProvider        = { viewModel.playbackController.duration() },
                             onClose = { showFullPlayer = false },

@@ -2,6 +2,11 @@ package com.example.cloudmusic.data.local
 
 import android.content.Context
 import com.example.cloudmusic.data.model.Playlist
+import com.example.cloudmusic.data.model.Track
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -14,6 +19,7 @@ import org.json.JSONObject
  */
 class PreferencesStore(context: Context) {
 
+    private val appContext = context.applicationContext
     private val prefs = context.getSharedPreferences("cloud_music_prefs", Context.MODE_PRIVATE)
 
     // ── 즐겨찾기 ──────────────────────────────────────────────────────────
@@ -99,6 +105,60 @@ class PreferencesStore(context: Context) {
     fun clearLastPosition(accountKey: String) {
         prefs.edit().remove(lastPositionKey(accountKey)).apply()
     }
+
+    // ── 설정 / 사용량 (계정과 무관한 전역 값) ───────────────────────────────
+
+    fun loadCacheMaxMb(): Int = prefs.getInt("cache_max_mb", DEFAULT_CACHE_MB)
+
+    fun saveCacheMaxMb(mb: Int) { prefs.edit().putInt("cache_max_mb", mb).apply() }
+
+    /** 이번 달에 모바일 데이터로 받은 오디오 바이트. 달이 바뀌면 새로 시작한다. */
+    fun loadCellularBytesThisMonth(): Long = prefs.getLong(cellularKey(), 0L)
+
+    fun addCellularBytes(bytes: Long) {
+        prefs.edit().putLong(cellularKey(), loadCellularBytesThisMonth() + bytes).apply()
+    }
+
+    private fun cellularKey() =
+        "cellular_bytes:" + SimpleDateFormat("yyyy-MM", Locale.US).format(Date())
+
+    // ── 라이브러리 목록 로컬 저장 ───────────────────────────────────────────
+    // 수천 곡이라 SharedPreferences(앱 시작 때 통째로 메모리에 올라감) 대신 파일로 저장한다.
+    // thumbnailUrl은 만료되는 링크라 저장하지 않는다. 새로고침 때 다시 채워진다.
+
+    fun loadTracks(accountKey: String): List<Track> = runCatching {
+        val arr = JSONArray(tracksFile(accountKey).readText())
+        (0 until arr.length()).map { i ->
+            val o = arr.getJSONObject(i)
+            Track(
+                id = o.getString("id"),
+                title = o.getString("title"),
+                artist = o.getString("artist"),
+                mimeType = o.getString("mimeType"),
+                sizeBytes = o.optLong("sizeBytes"),
+            )
+        }
+    }.getOrDefault(emptyList())
+
+    fun saveTracks(accountKey: String, tracks: List<Track>) {
+        val arr = JSONArray()
+        tracks.forEach {
+            arr.put(JSONObject()
+                .put("id", it.id).put("title", it.title).put("artist", it.artist)
+                .put("mimeType", it.mimeType).put("sizeBytes", it.sizeBytes))
+        }
+        val file = tracksFile(accountKey)
+        val tmp = File(file.parentFile, file.name + ".tmp")
+        // 임시 파일에 쓴 뒤 교체해서, 쓰다 죽어도 이전 목록이 깨지지 않게 한다.
+        runCatching { tmp.writeText(arr.toString()); tmp.renameTo(file) }
+    }
+
+    fun clearTracks(accountKey: String) { tracksFile(accountKey).delete() }
+
+    private fun tracksFile(accountKey: String) =
+        File(appContext.filesDir, "library_" + accountKey.replace(Regex("[^A-Za-z0-9._@-]"), "_") + ".json")
+
+    companion object { const val DEFAULT_CACHE_MB = 200 }
 
     fun sanitizeAccountKey(rawKey: String?): String =
         rawKey?.takeIf { it.isNotBlank() } ?: "unknown_account"

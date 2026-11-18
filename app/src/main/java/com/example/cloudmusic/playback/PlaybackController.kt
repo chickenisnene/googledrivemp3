@@ -109,25 +109,37 @@ class PlaybackController(context: Context) {
         startPositionMs: Long = 0L,
         playWhenReady: Boolean = true,
     ) {
-        val items = tracks.map { track ->
-            MediaItem.Builder()
-                .setMediaId(track.id)
-                .setUri(streamUrlBuilder(track.id))
-                .setMediaMetadata(
-                    MediaMetadata.Builder()
-                        .setTitle(track.title)
-                        .setArtist(track.artist)
-                        .setArtworkUri(track.thumbnailUrl?.let { android.net.Uri.parse(it) })
-                        .build()
-                )
-                .build()
-        }
+        val items = tracks.map { mediaItemFor(it, streamUrlBuilder) }
         controller?.apply {
             setMediaItems(items, startIndex, startPositionMs)
             prepare()
             this.playWhenReady = playWhenReady
         }
     }
+
+    private fun mediaItemFor(track: Track, streamUrlBuilder: (String) -> String) =
+        MediaItem.Builder()
+            .setMediaId(track.id)
+            .setUri(streamUrlBuilder(track.id))
+            .setMediaMetadata(
+                MediaMetadata.Builder()
+                    .setTitle(track.title)
+                    .setArtist(track.artist)
+                    .setArtworkUri(track.thumbnailUrl?.let { android.net.Uri.parse(it) })
+                    .build()
+            )
+            .build()
+
+    /** 현재 곡 바로 다음에 끼워 넣고, 넣은 위치를 돌려준다. shortcut: 셔플 중엔 재생 순서상 위치가 무작위일 수 있다. */
+    fun insertAfterCurrent(track: Track, streamUrlBuilder: (String) -> String): Int {
+        val c = controller ?: return -1
+        val index = (c.currentMediaItemIndex + 1).coerceAtMost(c.mediaItemCount)
+        c.addMediaItem(index, mediaItemFor(track, streamUrlBuilder))
+        return index
+    }
+
+    fun moveQueueItem(from: Int, to: Int) { controller?.moveMediaItem(from, to) }
+    fun removeQueueItem(index: Int) { controller?.removeMediaItem(index) }
 
     fun togglePlayPause() {
         controller?.let { c -> if (c.isPlaying) c.pause() else c.play() }

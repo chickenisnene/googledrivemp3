@@ -1,5 +1,6 @@
 package com.example.cloudmusic.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,7 +18,9 @@ import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.automirrored.filled.QueueMusic
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,6 +64,8 @@ fun LibraryScreen(
     onAddToPlaylist: (Playlist, Track) -> Unit,
     onCreatePlaylist: (String) -> Unit,
     onRefresh: () -> Unit,
+    onOpenSettings: () -> Unit,
+    onPlayNext: (Track) -> Unit,
     selectedTrackIds: Set<String>,
     onToggleSelect: (String) -> Unit,
     onClearSelection: () -> Unit,
@@ -71,6 +76,11 @@ fun LibraryScreen(
     var showBulkPlaylistDialog by remember { mutableStateOf(false) }
     val isSelectionMode = selectedTrackIds.isNotEmpty()
     var sortMenuExpanded by remember { mutableStateOf(false) }
+
+    // 뒤로가기: 선택 모드 해제 → 검색어 지우기
+    BackHandler(enabled = isSelectionMode || state.rawQuery.isNotEmpty()) {
+        if (isSelectionMode) onClearSelection() else onQueryChanged("")
+    }
 
     Column(modifier = modifier.fillMaxSize().padding(horizontal = 20.dp)) {
 
@@ -97,6 +107,9 @@ fun LibraryScreen(
                 )
             }
             if (state.isSignedIn) {
+                IconButton(onClick = onOpenSettings) {
+                    Icon(Icons.Filled.Settings, contentDescription = "저장공간·데이터")
+                }
                 IconButton(onClick = onRefresh, enabled = !state.isRefreshing) {
                     Icon(Icons.Filled.Refresh, contentDescription = "새로고침")
                 }
@@ -191,13 +204,17 @@ fun LibraryScreen(
                 state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
-                state.errorMessage != null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                // 저장된 목록이 있으면 오프라인 오류가 목록을 가리지 않게 한다.
+                state.errorMessage != null && state.tracks.isEmpty() -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(state.errorMessage, color = MaterialTheme.colorScheme.error)
                 }
                 else -> {
-                    val filtered = state.tracks
-                        .filter { state.query.isBlank() || it.title.contains(state.query, ignoreCase = true) || it.artist.contains(state.query, ignoreCase = true) }
-                        .applySortOption(sortOption)
+                    // 재생 상태가 바뀔 때마다 수천 곡을 다시 필터/정렬하지 않도록 입력이 바뀔 때만 계산한다.
+                    val filtered = remember(state.tracks, state.query, sortOption) {
+                        state.tracks
+                            .filter { state.query.isBlank() || it.title.contains(state.query, ignoreCase = true) || it.artist.contains(state.query, ignoreCase = true) }
+                            .applySortOption(sortOption)
+                    }
                     if (filtered.isEmpty()) {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
                             // 최근 재생은 빈 목록 상태에서도 보임
@@ -248,6 +265,7 @@ fun LibraryScreen(
                                     },
                                     onToggleFavorite = { onToggleFavorite(track) },
                                     onAddToPlaylistClick = { trackForPlaylistDialog = track },
+                                    onPlayNextClick = { onPlayNext(track) },
                                     onToggleSelect = { onToggleSelect(track.id) },
                                 )
                             }
@@ -493,6 +511,7 @@ private fun TrackRow(
     onClick: () -> Unit,
     onToggleFavorite: () -> Unit,
     onAddToPlaylistClick: () -> Unit,
+    onPlayNextClick: () -> Unit,
     onToggleSelect: () -> Unit,
 ) {
     val rowShape = RoundedCornerShape(14.dp)
@@ -558,6 +577,13 @@ private fun TrackRow(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                     contentDescription = if (isFavorite) "즐겨찾기 해제" else "즐겨찾기 추가",
                     tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            IconButton(onClick = onPlayNextClick) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.QueueMusic,
+                    contentDescription = "다음에 재생",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             IconButton(onClick = onAddToPlaylistClick) {

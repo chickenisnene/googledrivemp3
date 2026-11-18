@@ -3,11 +3,10 @@ package com.example.cloudmusic.playback
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
-import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DataSpec
+import androidx.media3.datasource.TransferListener
 import androidx.media3.datasource.cache.CacheDataSource
-import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
-import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
@@ -15,8 +14,11 @@ import androidx.media3.exoplayer.upstream.LoadErrorHandlingPolicy
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import com.example.cloudmusic.data.local.DataSaverProvider
+import com.example.cloudmusic.data.local.MediaCache
+import com.example.cloudmusic.data.local.NetworkMonitor
+import com.example.cloudmusic.data.local.NetworkType
+import com.example.cloudmusic.data.local.PreferencesStore
 import okhttp3.OkHttpClient
-import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -24,12 +26,11 @@ class MusicService : MediaSessionService() {
 
     private lateinit var player: ExoPlayer
     private var mediaSession: MediaSession? = null
-    private var diskCache: SimpleCache? = null
+    private var pendingCellularBytes = 0L
+    private var lastNetCheckMs = 0L
+    private var onCellular = false
 
     companion object {
-        // 디스크 캐시 용량 (200MB)
-        private const val CACHE_MAX_BYTES = 200L * 1024 * 1024
-
         // ── 버퍼 프리셋 ──────────────────────────────────────────────────────
         // Wi-Fi: 넉넉하게 — 데이터 걱정 없고 끊김 최소화
         private const val WIFI_MIN_BUFFER_MS  = 20_000
@@ -61,7 +62,7 @@ class MusicService : MediaSessionService() {
             .retryOnConnectionFailure(true)
             .build()
 
-        val networkDataSourceFactory: DataSource.Factory = OkHttpDataSource.Factory(okHttpClient)
+        val networkDataSourceFactory: DataSource.Factory = OkHttpDataSource.Factory(okHttpClient).setTransferListener(cellularCounter)
         val dataSourceFactory: DataSource.Factory = buildCachingDataSourceFactory(networkDataSourceFactory)
 
         player = ExoPlayer.Builder(this)
@@ -115,15 +116,36 @@ class MusicService : MediaSessionService() {
         ): LoadErrorHandlingPolicy.FallbackSelection? = null
     }
 
-    private fun buildCachingDataSourceFactory(upstream: DataSource.Factory): DataSource.Factory {
-        val cacheDir = File(cacheDir, "media_cache")
-        val evictor = LeastRecentlyUsedCacheEvictor(CACHE_MAX_BYTES)
-        val databaseProvider = StandaloneDatabaseProvider(this)
-        val cache = SimpleCache(cacheDir, evictor, databaseProvider).also { diskCache = it }
-        return CacheDataSource.Factory()
-            .setCache(cache)
+    private fun buildCachingDataSourceFactory(upstream: DataSource.Factory): DataSource.Factory =
+        CacheDataSource.Factory()
+            .setCache(MediaCache.get(this))
             .setUpstreamDataSourceFactory(upstream)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+
+    /** 실제로 네트워크에서 받은 바이트(캐시 적중 제외)를 모바일 데이터일 때만 월 사용량에 더한다. */
+    private val cellularCounter = object : TransferListener {
+        override fun onTransferInitializing(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean) {}
+        override fun onTransferStart(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean) {}
+        override fun onTransferEnd(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean) { flushCellularBytes() }
+        override fun onBytesTransferred(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean, bytesTransferred: Int) {
+            val now = System.currentTimeMillis()
+            // 청크마다 시스템 호출을 하지 않도록 네트워크 종류는 1초에 한 번만 확인한다.
+            if (now - lastNetCheckMs > 1_000) {
+                lastNetCheckMs = now
+                onCellular = NetworkMonitor(this@MusicService).currentNetworkType() == NetworkType.CELLULAR
+            }
+            if (onCellular) pendingCellularBytes += bytesTransferred
+            // 곡 하나가 끝날 때까지 안 쓰면 강제 종료 시 유실되므로 일정량마다 저장한다.
+            if (pendingCellularBytes > 512 * 1024) flushCellularBytes()
+        }
+    }
+
+    @Synchronized
+    private fun flushCellularBytes() {
+        if (pendingCellularBytes > 0) {
+            PreferencesStore(this).addCellularBytes(pendingCellularBytes)
+            pendingCellularBytes = 0
+        }
     }
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = mediaSession
@@ -136,8 +158,7 @@ class MusicService : MediaSessionService() {
 
     override fun onDestroy() {
         mediaSession?.run { player.release(); release(); mediaSession = null }
-        runCatching { diskCache?.release() }
-        diskCache = null
+        flushCellularBytes()
         super.onDestroy()
     }
 

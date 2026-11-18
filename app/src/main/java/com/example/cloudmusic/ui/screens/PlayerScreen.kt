@@ -15,7 +15,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
@@ -90,6 +92,8 @@ fun PlayerScreen(
     onStartSleepTimer: (Int) -> Unit,
     onCancelSleepTimer: () -> Unit,
     onJumpToQueueItem: (Int) -> Unit,
+    onMoveQueueItem: (Int, Int) -> Unit,
+    onRemoveQueueItem: (Int) -> Unit,
     currentPositionProvider: () -> Long,
     durationProvider: () -> Long,
     onClose: () -> Unit,
@@ -381,6 +385,8 @@ fun PlayerScreen(
                 queue = queue,
                 currentIndex = state.currentQueueIndex,
                 onJumpTo = { idx -> onJumpToQueueItem(idx); showQueueSheet = false },
+                onMove = onMoveQueueItem,
+                onRemove = onRemoveQueueItem,
             )
         }
     }
@@ -439,6 +445,8 @@ private fun QueueBottomSheet(
     queue: List<Track>,
     currentIndex: Int,
     onJumpTo: (Int) -> Unit,
+    onMove: (Int, Int) -> Unit,
+    onRemove: (Int) -> Unit,
 ) {
     val listState = rememberLazyListState()
     LaunchedEffect(currentIndex) {
@@ -510,6 +518,17 @@ private fun QueueBottomSheet(
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
+                        }
+                        // 드래그 라이브러리 없이 ▲▼로 순서를 바꾼다. 곡이 수천 개면 한 칸씩이라 느리다 (shortcut).
+                        val small = Modifier.size(32.dp)
+                        IconButton(onClick = { onMove(idx, idx - 1) }, enabled = idx > 0, modifier = small) {
+                            Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "위로", modifier = Modifier.size(20.dp))
+                        }
+                        IconButton(onClick = { onMove(idx, idx + 1) }, enabled = idx < queue.lastIndex, modifier = small) {
+                            Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "아래로", modifier = Modifier.size(20.dp))
+                        }
+                        IconButton(onClick = { onRemove(idx) }, modifier = small) {
+                            Icon(Icons.Filled.Close, contentDescription = "대기열에서 삭제", modifier = Modifier.size(20.dp))
                         }
                     }
                 }

@@ -8,6 +8,7 @@ import com.example.cloudmusic.data.drive.DriveAuthManager
 import com.example.cloudmusic.data.drive.DriveRepository
 import com.example.cloudmusic.data.local.ArtworkExtractor
 import com.example.cloudmusic.data.local.DataSaverProvider
+import com.example.cloudmusic.data.local.MediaCache
 import com.example.cloudmusic.data.local.NetworkMonitor
 import com.example.cloudmusic.data.local.NetworkType
 import com.example.cloudmusic.data.local.PreferencesStore
@@ -16,7 +17,11 @@ import com.example.cloudmusic.data.model.Track
 import com.example.cloudmusic.playback.PlaybackController
 import com.example.cloudmusic.playback.TokenProvider
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -115,6 +120,10 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     val sleepTimerRemainingMs: StateFlow<Long?> = _sleepTimerRemainingMs.asStateFlow()
     private var sleepTimerJob: Job? = null
 
+    // 스낵바로 띄울 한 번짜리 안내 (모바일 데이터 재생 등)
+    private val _notices = MutableSharedFlow<String>(extraBufferCapacity = 4)
+    val notices: SharedFlow<String> = _notices
+
     // ── 권한 재동의 인텐트 (UserRecoverableAuthException 처리) ──────────────
     private val _reAuthIntent = MutableStateFlow<android.content.Intent?>(null)
     val reAuthIntent: StateFlow<android.content.Intent?> = _reAuthIntent.asStateFlow()
@@ -162,6 +171,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _playlists.value          = prefs.loadPlaylists(newKey)
         _recentlyPlayedIds.value  = prefs.loadRecentlyPlayedIds(newKey)
         _selectedTrackIds.value   = emptySet()
+        // 저장해 둔 목록을 먼저 보여줘서 Drive 응답을 기다리지 않고(오프라인이어도) 바로 쓸 수 있게 한다.
+        _uiState.value = _uiState.value.copy(tracks = prefs.loadTracks(newKey))
     }
 
     // ── 새로고침 ─────────────────────────────────────────────────────────────
@@ -173,7 +184,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun refreshTokenAndLoadLibrary(account: GoogleSignInAccount, isRefresh: Boolean) {
         viewModelScope.launch {
-            if (isRefresh) {
+            // 저장된 목록이 이미 화면에 있으면 스피너 대신 조용히 갱신한다.
+            if (isRefresh || _uiState.value.tracks.isNotEmpty()) {
                 _uiState.value = _uiState.value.copy(isRefreshing = true, errorMessage = null)
             } else {
                 _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
@@ -203,6 +215,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                     }
                 }
                 val tracks = driveRepo.listAudioTracks(account)
+                accountKey?.let { key -> withContext(Dispatchers.IO) { prefs.saveTracks(key, tracks) } }
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     isRefreshing = false,
@@ -271,17 +284,20 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _currentQueue.value = tracks
         recordRecentlyPlayed(track.id)
         clearLastPosition()
+        noticeIfCellular(track)
     }
 
     fun playPlaylist(playlist: Playlist, startTrack: Track? = null) {
         val allTracks = _uiState.value.tracks
-        val ordered = playlist.trackIds.mapNotNull { id -> allTracks.find { it.id == id } }
+        val byId = allTracks.associateBy { it.id }
+        val ordered = playlist.trackIds.mapNotNull { byId[it] }
         if (ordered.isEmpty()) return
         val idx = startTrack?.let { ordered.indexOf(it) }?.coerceAtLeast(0) ?: 0
         playbackController.playTracks(ordered, driveRepo::streamUrlFor, idx)
         _currentQueue.value = ordered
         recordRecentlyPlayed(ordered[idx].id)
         clearLastPosition()
+        noticeIfCellular(ordered[idx])
     }
 
     fun playFavorites(startTrack: Track? = null) {
@@ -292,6 +308,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _currentQueue.value = favTracks
         recordRecentlyPlayed(favTracks[idx].id)
         clearLastPosition()
+        noticeIfCellular(favTracks[idx])
     }
 
     fun playArtist(artist: String, startTrack: Track? = null) {
@@ -302,6 +319,70 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _currentQueue.value = artistTracks
         recordRecentlyPlayed(artistTracks[idx].id)
         clearLastPosition()
+        noticeIfCellular(artistTracks[idx])
+    }
+
+    /** 모바일 데이터이고 아직 캐시에 없는 곡이면, 재생 전에 대략 얼마나 받는지 알려준다. */
+    private fun noticeIfCellular(track: Track) {
+        if (networkMonitor.currentNetworkType() != NetworkType.CELLULAR) return
+        if (MediaCache.isCached(getApplication(), DriveRepository.streamUrlFor(track.id), track.sizeBytes)) return
+        val size = if (track.sizeBytes > 0) " (최대 약 %.1fMB)".format(track.sizeBytes / 1_048_576.0) else ""
+        _notices.tryEmit("모바일 데이터로 재생해요$size")
+    }
+
+    // ── 재생 대기열 편집 ─────────────────────────────────────────────────────
+    fun playNext(track: Track) {
+        if (playbackController.state.value.queueSize == 0) {
+            playbackController.playTracks(listOf(track), driveRepo::streamUrlFor, 0)
+            _currentQueue.value = listOf(track)
+            recordRecentlyPlayed(track.id)
+            noticeIfCellular(track)
+            return
+        }
+        val index = playbackController.insertAfterCurrent(track, driveRepo::streamUrlFor)
+        if (index < 0) return
+        _currentQueue.value = _currentQueue.value.toMutableList().apply { add(index.coerceAtMost(size), track) }
+        _notices.tryEmit("다음에 재생할게요")
+    }
+
+    fun moveQueueItem(from: Int, to: Int) {
+        val queue = _currentQueue.value
+        if (from !in queue.indices || to !in queue.indices || from == to) return
+        playbackController.moveQueueItem(from, to)
+        _currentQueue.value = queue.toMutableList().apply { add(to, removeAt(from)) }
+    }
+
+    fun removeQueueItem(index: Int) {
+        val queue = _currentQueue.value
+        if (index !in queue.indices) return
+        playbackController.removeQueueItem(index)
+        _currentQueue.value = queue.toMutableList().apply { removeAt(index) }
+    }
+
+    // ── 저장공간 / 데이터 사용량 ─────────────────────────────────────────────
+    data class StorageInfo(val cacheUsedBytes: Long = 0, val cacheMaxMb: Int = PreferencesStore.DEFAULT_CACHE_MB, val cellularBytes: Long = 0)
+
+    private val _storageInfo = MutableStateFlow(StorageInfo())
+    val storageInfo: StateFlow<StorageInfo> = _storageInfo.asStateFlow()
+
+    fun refreshStorageInfo() {
+        viewModelScope.launch {
+            _storageInfo.value = withContext(Dispatchers.IO) {
+                StorageInfo(MediaCache.usedBytes(getApplication()), prefs.loadCacheMaxMb(), prefs.loadCellularBytesThisMonth())
+            }
+        }
+    }
+
+    fun setCacheMaxMb(mb: Int) {
+        prefs.saveCacheMaxMb(mb)
+        _storageInfo.value = _storageInfo.value.copy(cacheMaxMb = mb)
+    }
+
+    fun clearAudioCache() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) { MediaCache.clear(getApplication()) }
+            refreshStorageInfo()
+        }
     }
 
     /**
@@ -474,6 +555,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     // ── 로그아웃 ─────────────────────────────────────────────────────────────
     fun signOut() {
         saveCurrentPosition()
+        accountKey?.let { prefs.clearTracks(it) }  // 로그아웃 후 기기에 목록이 남지 않게
         driveRepo.clearCache()
         ArtworkExtractor.evictAll()
         authManager.signOut {

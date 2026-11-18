@@ -4,41 +4,7 @@
             "outputFile": "com.example.cloudmusic.app-mergeDebugResources-56:/values-bs/values-bs.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\b243c34291ff2217757badf58c677c96\\transformed\\media3-exoplayer-1.4.1\\res\\values-bs\\values-bs.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,130,191,256,329,408,481,581,662",
-                        "endColumns": "74,60,64,72,78,72,99,80,72",
-                        "endOffsets": "125,186,251,324,403,476,576,657,730"
-                    },
-                    "to": {
-                        "startLines": "50,51,52,53,54,55,56,57,58",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "5179,5254,5315,5380,5453,5532,5605,5705,5786",
-                        "endColumns": "74,60,64,72,78,72,99,80,72",
-                        "endOffsets": "5249,5310,5375,5448,5527,5600,5700,5781,5854"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\2a476d35a301efef8a6cc2c745f691b2\\transformed\\media3-session-1.4.1\\res\\values-bs\\values-bs.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,141,247,321,425,522,625,725,813,914,1012,1092,1197,1297,1391,1470,1566,1648,1743,1816,1892,1974,2062,2160",
-                        "endColumns": "85,105,73,103,96,102,99,87,100,97,79,104,99,93,78,95,81,94,72,75,81,87,97,102",
-                        "endOffsets": "136,242,316,420,517,620,720,808,909,1007,1087,1192,1292,1386,1465,1561,1643,1738,1811,1887,1969,2057,2155,2258"
-                    },
-                    "to": {
-                        "startLines": "30,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,118,119,120,121,122,123",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3306,3577,3683,3757,3861,3958,4061,4161,4249,4350,4448,4528,4633,4733,4827,4906,5002,5084,12370,12443,12519,12601,12689,12787",
-                        "endColumns": "85,105,73,103,96,102,99,87,100,97,79,104,99,93,78,95,81,94,72,75,81,87,97,102",
-                        "endOffsets": "3387,3678,3752,3856,3953,4056,4156,4244,4345,4443,4523,4628,4728,4822,4901,4997,5079,5174,12438,12514,12596,12684,12782,12885"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\0ec18b0b83cb9f4ed8099e718deaf22b\\transformed\\play-services-base-18.3.0\\res\\values-bs\\values.xml",
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\ecdbbb52526298b2b8cc3115ff0c1a12\\transformed\\play-services-base-18.3.0\\res\\values-bs\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -55,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\d777a956bcb0314795d06b1938998a84\\transformed\\foundation-release\\res\\values-bs\\values-bs.xml",
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\644e698585ffb419fd5b22e007df172f\\transformed\\media3-exoplayer-1.4.1\\res\\values-bs\\values-bs.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,130,191,256,329,408,481,581,662",
+                        "endColumns": "74,60,64,72,78,72,99,80,72",
+                        "endOffsets": "125,186,251,324,403,476,576,657,730"
+                    },
+                    "to": {
+                        "startLines": "50,51,52,53,54,55,56,57,58",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "5179,5254,5315,5380,5453,5532,5605,5705,5786",
+                        "endColumns": "74,60,64,72,78,72,99,80,72",
+                        "endOffsets": "5249,5310,5375,5448,5527,5600,5700,5781,5854"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\b960ff66cf999dfae872a9044f4aa452\\transformed\\foundation-release\\res\\values-bs\\values-bs.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -72,24 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\988da5328374c2104310c5421297b5a6\\transformed\\play-services-basement-18.3.0\\res\\values-bs\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "136",
-                        "endOffsets": "331"
-                    },
-                    "to": {
-                        "startLines": "19",
-                        "startColumns": "4",
-                        "startOffsets": "2011",
-                        "endColumns": "140",
-                        "endOffsets": "2147"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\3c1bdc1f13b676167f2f17e0df1ccf51\\transformed\\core-1.13.1\\res\\values-bs\\values-bs.xml",
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\e4a604602f0041cf7269c0276189b549\\transformed\\core-1.13.1\\res\\values-bs\\values-bs.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -106,7 +72,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\aa6e53e29a72f8965051c867751d7d50\\transformed\\ui-release\\res\\values-bs\\values-bs.xml",
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\656ddf0d47577d929cb1c5f919f45896\\transformed\\play-services-basement-18.3.0\\res\\values-bs\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "136",
+                        "endOffsets": "331"
+                    },
+                    "to": {
+                        "startLines": "19",
+                        "startColumns": "4",
+                        "startOffsets": "2011",
+                        "endColumns": "140",
+                        "endOffsets": "2147"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\de142c6f5442012b8b1a7482f9d42ab7\\transformed\\ui-release\\res\\values-bs\\values-bs.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -123,7 +106,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\2656605c56ccfeb19e68e13d498f59cd\\transformed\\material3-release\\res\\values-bs\\values-bs.xml",
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\f45f02ce4cd8740464aed5d071612f9c\\transformed\\media3-session-1.4.1\\res\\values-bs\\values-bs.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,141,247,321,425,522,625,725,813,914,1012,1092,1197,1297,1391,1470,1566,1648,1743,1816,1892,1974,2062,2160",
+                        "endColumns": "85,105,73,103,96,102,99,87,100,97,79,104,99,93,78,95,81,94,72,75,81,87,97,102",
+                        "endOffsets": "136,242,316,420,517,620,720,808,909,1007,1087,1192,1292,1386,1465,1561,1643,1738,1811,1887,1969,2057,2155,2258"
+                    },
+                    "to": {
+                        "startLines": "30,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,118,119,120,121,122,123",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3306,3577,3683,3757,3861,3958,4061,4161,4249,4350,4448,4528,4633,4733,4827,4906,5002,5084,12370,12443,12519,12601,12689,12787",
+                        "endColumns": "85,105,73,103,96,102,99,87,100,97,79,104,99,93,78,95,81,94,72,75,81,87,97,102",
+                        "endOffsets": "3387,3678,3752,3856,3953,4056,4156,4244,4345,4443,4523,4628,4728,4822,4901,4997,5079,5174,12438,12514,12596,12684,12782,12885"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\39ad17f6af30b35f8018b11554293331\\transformed\\material3-release\\res\\values-bs\\values-bs.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

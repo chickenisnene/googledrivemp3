@@ -4,7 +4,7 @@
             "outputFile": "com.example.cloudmusic.app-mergeDebugResources-56:/values-v21/values-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\3c1bdc1f13b676167f2f17e0df1ccf51\\transformed\\core-1.13.1\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\e4a604602f0041cf7269c0276189b549\\transformed\\core-1.13.1\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.5\\transforms\\2a476d35a301efef8a6cc2c745f691b2\\transformed\\media3-session-1.4.1\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\yul\\.gradle\\caches\\8.14.7\\transforms\\f45f02ce4cd8740464aed5d071612f9c\\transformed\\media3-session-1.4.1\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,5,8,11",
                         "startColumns": "4,4,4,4",
